@@ -58,5 +58,5 @@ WORKDIR /input
 ENV CMAKE_ARGS="-DWITH_CUDA=ON -DWITH_CUDNN=OFF -DOPENCV_DNN_CUDA=OFF -DCUDA_ARCH_BIN=7.5,8.6 -DWITH_CUBLAS=1 -DWITH_OPENCL=OFF -DWITH_OPENCLAMDFFT=OFF -DWITH_OPENCLAMDBLAS=OFF -DOPENCV_DNN_OPENCL=OFF -DOPENCV_EXTRA_MODULES_PATH=/input/opencv_contrib/modules -DBUILD_SHARED_LIBS=ON -DBUILD_opencv_world=OFF"
 
 CMD python setup.py bdist_wheel
-# CMD auditwheel repair dist/*.whl --plat linux_x86_64
-# CMD cp dist/wheelhouse/*.whl /output/
+CMD auditwheel repair dist/*.whl --plat linux_x86_64
+CMD cp wheelhouse/*.whl /output/
