@@ -29,6 +29,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     zlib1g-dev \
   && rm -rf /var/lib/apt/lists/*
 
+# Patched version of patchelf for auditwheel
+RUN git clone https://github.com/nvictus/patchelf.git --depth 1
+WORKDIR $HOME/patchelf
+RUN ./bootstrap.sh
+RUN ./configure
+RUN make
+RUN make install
+
 # Create batman user
 RUN useradd -ms /bin/bash batman
 USER batman
@@ -43,12 +51,14 @@ RUN curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-instal
     pyenv rehash
 
 # Note: We can upgrade to the latest version of scikit-build after the next opencv-python release
-RUN pip install --upgrade pip setuptools numpy scikit-build==0.13.1
+RUN pip install --upgrade pip auditwheel setuptools numpy scikit-build==0.13.1
 
 VOLUME [ "/input", "/output" ]
 WORKDIR /input
 
-ENV CMAKE_ARGS="-DWITH_CUDA=ON -DCUDA_ARCH_BIN=6.1,7.5,8.6 -DWITH_OPENCL=OFF -DWITH_OPENCLAMDFFT=OFF -DWITH_OPENCLAMDBLAS=OFF -DOPENCV_DNN_OPENCL=OFF -DOPENCV_EXTRA_MODULES_PATH=/input/opencv_contrib/modules"
+ENV CMAKE_ARGS="-DWITH_CUDA=ON -DCUDA_ARCH_BIN=6.1,7.5,8.6 -DWITH_OPENCL=OFF -DWITH_OPENCLAMDFFT=OFF -DWITH_OPENCLAMDBLAS=OFF -DOPENCV_DNN_OPENCL=OFF -DOPENCV_EXTRA_MODULES_PATH=/input/opencv_contrib/modules -DBUILD_SHARED_LIBS=ON -DBUILD_opencv_world=OFF"
 
 CMD python setup.py bdist_wheel && \
-    cp dist/*.whl /output/
+    python auditwheel-min.py repair dist/*.whl --plat manylinux_2_31_x86_64 && \
+    python verify-libs.py wheelhouse/*.whl && \
+    cp wheelhouse/*.whl /output/

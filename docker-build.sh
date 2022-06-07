@@ -6,5 +6,7 @@ if [ ! -d opencv-python ]; then
     (cd opencv-python && git submodule update --init --depth 1)
 fi
 
+cp $(pwd)/auditwheel-min.py $(pwd)/opencv-python/
+cp $(pwd)/verify-libs.py $(pwd)/opencv-python/
 docker build -t opencv-python-package .
 docker run --rm -v $(pwd)/opencv-python:/input -v $(pwd):/output opencv-python-package
