@@ -2,7 +2,7 @@
 import sys
 import zipfile
 
-prefix = 'opencv_python.libs/'
+prefix = 'opencv_python_headless.libs/'
 assert len (sys.argv) > 1
 for fn in sys.argv[1:]:
   print(f'verifying libraries for {fn}...')
