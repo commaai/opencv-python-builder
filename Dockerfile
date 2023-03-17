@@ -51,7 +51,7 @@ RUN curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-instal
     pyenv rehash
 
 # Note: We can upgrade to the latest version of scikit-build after the next opencv-python release
-RUN pip install --upgrade pip auditwheel setuptools numpy scikit-build==0.13.1
+RUN pip install --upgrade pip auditwheel==5.1.2 setuptools numpy scikit-build==0.13.1
 
 VOLUME [ "/input", "/output" ]
 WORKDIR /input
