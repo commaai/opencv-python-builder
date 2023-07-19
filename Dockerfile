@@ -46,8 +46,8 @@ WORKDIR $HOME
 # Install python
 ENV PATH="${HOME}/.pyenv/bin:${HOME}/.pyenv/shims:${PATH}"
 RUN curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash && \
-    CONFIGURE_OPTS="--enable-shared" pyenv install 3.8.10 && \
-    pyenv global 3.8.10 && \
+    CONFIGURE_OPTS="--enable-shared" pyenv install 3.11.4 && \
+    pyenv global 3.11.4 && \
     pyenv rehash
 
 # Note: We can upgrade to the latest version of scikit-build after the next opencv-python release

@@ -1,4 +1,4 @@
-# Make sure we didn't include any libraries except libopencv                                              
+# Make sure we didn't include any libraries except libopencv
 import sys
 import zipfile
 
