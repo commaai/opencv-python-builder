@@ -2,7 +2,7 @@
 set -e
 
 if [ ! -d opencv-python ]; then
-    git clone https://github.com/opencv/opencv-python.git -b 80 --depth 1 --single-branch
+    git clone https://github.com/opencv/opencv-python.git -b 84 --depth 1 --single-branch
     (cd opencv-python && git submodule update --init --depth 1)
 fi
 
